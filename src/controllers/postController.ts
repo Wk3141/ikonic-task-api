@@ -1,7 +1,8 @@
 var postModal = require("../modal/post");
 exports.getPosts = async function (req: any, res: any, next: any) {
   try {
-    const posts = await postModal.find({}).populate("userID");
+    const posts = await postModal.find({}).populate("userID").sort({
+      createdAt: -1});
     res.status(200).json(posts);
   } catch (error) {
     console.error(error);
@@ -49,9 +50,7 @@ exports.getpostByID = async function (req: any, res: any) {
 
 exports.updatePostByID = async function (req: any, res: any) {
   try {
-
-  
-    const { id } = req.params;
+     const { id } = req.params;
     const { title,description} = req.body;
 
     const singlePost = await postModal.findById(id);
